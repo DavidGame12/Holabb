@@ -1,51 +1,40 @@
 <template>
-    <div class="wrapper container mt-4">
-      <center><h1 class="mb-4 title">Formulario</h1></center>
+    <div class="container">
       <div class="card">
-        <div class="card-body">
-          <div class="card-switch">
-            <label class="switch">
-              <input type="checkbox" class="toggle">
-              <div class="slider"></div>
-              <div class="flip-card__inner">
-                <div class="flip-card__front">
-                  <h2 class="title">Log in</h2>
-                  <form @submit.prevent="login" class="flip-card__form">
-                    <div class="mb-3">
-                      <label for="login-email" class="form-label">Correo Electrónico</label>
-                      <input type="email" class="flip-card__input" id="login-email" placeholder="Introduce tu correo electrónico" v-model="loginForm.email">
-                    </div>
-                    <div class="mb-3">
-                      <label for="login-password" class="form-label">Contraseña</label>
-                      <input type="password" class="flip-card__input" id="login-password" placeholder="Introduce tu contraseña" v-model="loginForm.password">
-                    </div>
-                    <button type="submit" class="flip-card__btn">Let’s go!</button>
-                  </form>
-                </div>
-                <div class="flip-card__back">
-                  <h2 class="title">Sign up</h2>
-                  <form @submit.prevent="signup" class="flip-card__form">
-                    <div class="mb-3">
-                      <label for="signup-name" class="form-label">Nombre</label>
-                      <input type="text" class="flip-card__input" id="signup-name" placeholder="Introduce tu nombre" v-model="signupForm.name">
-                    </div>
-                    <div class="mb-3">
-                      <label for="signup-email" class="form-label">Correo Electrónico</label>
-                      <input type="email" class="flip-card__input" id="signup-email" placeholder="Introduce tu correo electrónico" v-model="signupForm.email">
-                    </div>
-                    <div class="mb-3">
-                      <label for="signup-password" class="form-label">Contraseña</label>
-                      <input type="password" class="flip-card__input" id="signup-password" placeholder="Introduce tu contraseña" v-model="signupForm.password">
-                    </div>
-                    <button type="submit" class="flip-card__btn button-confirm">Confirm!</button>
-                  </form>
-                </div>
-              </div>
-            </label>
+        <h1 id="heading">Iniciar Sesión</h1>
+        <form @submit.prevent="handleSubmit" class="form">
+          <div class="field">
+            <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-3.31 0-6 2.69-6 6v1h12v-1c0-3.31-2.69-6-6-6zm0-10c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2z"/>
+            </svg>
+            <input
+              type="email"
+              id="email"
+              v-model="form.email"
+              class="input-field"
+              placeholder="Introduce tu correo electrónico"
+              required
+            />
           </div>
-        </div>
+          <div class="field">
+            <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-3.31 0-6 2.69-6 6v1h12v-1c0-3.31-2.69-6-6-6zm0-10c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2z"/>
+            </svg>
+            <input
+              type="password"
+              id="password"
+              v-model="form.password"
+              class="input-field"
+              placeholder="Introduce tu contraseña"
+              required
+            />
+          </div>
+          <div class="btn-container">
+            <button type="submit" class="button button-primary">Iniciar Sesión</button>
+            <a href="/signup" class="button button-secondary">Regístrate</a>
+          </div>
+        </form>
       </div>
-      <a href="/login" class="btn btn-link mt-3">Login</a>
     </div>
   </template>
   
@@ -53,28 +42,36 @@
   export default {
     data() {
       return {
-        loginForm: {
+        form: {
           email: '',
           password: ''
         },
-        signupForm: {
-          name: '',
-          email: '',
-          password: ''
-        }
+        errors: {}
       };
     },
     methods: {
-      login() {
-        // Handle login logic here
-        console.log('Login:', this.loginForm);
+      handleSubmit() {
+        this.errors = this.validateForm();
+        if (Object.keys(this.errors).length === 0) {
+          // Aquí puedes manejar la lógica de inicio de sesión
+          console.log('Formulario enviado:', this.form);
+        }
       },
-      signup() {
-        // Handle signup logic here
-        console.log('Signup:', this.signupForm);
+      validateForm() {
+        const errors = {};
+        if (!this.form.email) {
+          errors.email = 'El correo electrónico es requerido.';
+        } else if (!/\S+@\S+\.\S+/.test(this.form.email)) {
+          errors.email = 'El correo electrónico no es válido.';
+        }
+        if (!this.form.password) {
+          errors.password = 'La contraseña es requerida.';
+        }
+        return errors;
       }
     }
   };
   </script>
   
  
+  
