@@ -7,5 +7,8 @@ use Illuminate\Http\Request;
 
 class loginCtrl extends Controller
 {
+    public function loginView(){
+        return view('login/login');
+    }
     //
 }

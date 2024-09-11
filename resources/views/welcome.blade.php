@@ -19,6 +19,6 @@
       <div id="app">
 
       </div>
-      @vite('resource/js/app.js')
+      @vite('resources/js/app.js')
     </body>
 </html>
